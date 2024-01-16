@@ -62,16 +62,6 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <!-- Menú principal "FCTIES" -->
-        <record model="ir.ui.menu" id="fcties.menu_root">
-            <field name="name">FCTIES</field>
-            <field name="action" ref="fcties.alumno_action_window"/>
-            <field name="sequence" eval="10"/>
-        </record>
-
-        <!-- Submenú "Alumnos" bajo el menú principal "FCTIES" -->
-        <menuitem name="Alumnos" id="fcties.alumno_menu" parent="fcties.menu_root" action="fcties.alumno_action_window"/>
-
         <!-- Vistas para el modelo Empresa -->
         <record model="ir.ui.view" id="fcties.empresa_tree">
             <field name="name">empresa.tree</field>
@@ -100,7 +90,7 @@
                             <field name="telefono_contacto"/>
                             <field name="correo_electronico"/>
                             <field name="direccion"/>
-                            <field name="alumno_ids" widget="many2many_tags" options="{'no_create_edit': True}" />
+                            <field name="alumno_ids" widget="many2many_tags" options="{'no_create_edit': False}"/>
                         </group>
                     </sheet>
                 </form>
@@ -113,9 +103,6 @@
             <field name="res_model">fcties.empresa</field>
             <field name="view_mode">tree,form</field>
         </record>
-
-        <!-- Submenú "Empresas" bajo el menú principal "FCTIES" -->
-        <menuitem name="Empresas" id="fcties.empresa_menu" parent="fcties.menu_root" action="fcties.empresa_action_window"/>
 
         <record id="fcties.menu_action_root_fct" model="ir.actions.act_window">
             <field name="name">FCT</field>
@@ -130,35 +117,6 @@
                 </p>
             </field>
         </record>
-
-        <record id="fcties.menu_action_alumnos" model="ir.actions.act_window">
-            <field name="name">Alumnos</field>
-            <field name="res_model">fcties.alumno</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="fcties.alumno_tree"/>
-            <field name="domain">[]</field>
-            <field name="context">{}</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Haz clic en Crear para añadir nuevos alumnos.
-                </p>
-            </field>
-        </record>
-        
-        <record id="fcties.menu_action_empresas" model="ir.actions.act_window">
-            <field name="name">Empresas</field>
-            <field name="res_model">fcties.empresa</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="fcties.empresa_tree"/>
-            <field name="domain">[]</field>
-            <field name="context">{}</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Haz clic en Crear para añadir nuevas empresas.
-                </p>
-            </field>
-        </record>
-        
 
         <!-- Menú FCT (root) y submenús Alumnos y Empresas -->
         <record id="menu_root_fct" model="ir.ui.menu">

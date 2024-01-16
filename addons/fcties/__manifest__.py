@@ -27,8 +27,8 @@
         # 'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
+        'reports/informe.xml',
     ],
-    'images': ['addons\fcties\static\description\fcties.png'],
     # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',

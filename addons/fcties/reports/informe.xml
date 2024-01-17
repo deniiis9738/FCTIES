@@ -9,8 +9,6 @@
                         <!-- Datos de la Empresa -->
                         <h2>Información de la Empresa</h2>
                         <p>Nombre: <t t-esc="doc.name"/></p>
-                        <p>Contacto: <t t-esc="doc.persona_contacto"/></p>
-                        <!-- Otros campos de la empresa según tus necesidades -->
 
                         <!-- Alumnos Agrupados por Curso Académico -->
                         <h2>Alumnos por Curso Académico</h2>

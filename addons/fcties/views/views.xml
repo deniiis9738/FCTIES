@@ -17,6 +17,7 @@
                     <field name="periodo_practica"/>
                     <field name="nota_media"/>
                     <field name="nota_media_texto"/>
+                    <field name="empresa_id"/>
                 </tree>
             </field>
         </record>
@@ -38,28 +39,33 @@
                             <field name="periodo_practica"/>
                             <field name="nota_media"/>
                             <field name="nota_media_texto" readonly="1"/>
+                            <field name="empresa_id"/>
                         </group>
                     </sheet>
                 </form>
             </field>
         </record>
 
-        <!-- Vista para el filtro de alumnos con nota media mayor de 8 -->
-        <record model="ir.ui.view" id="fcties_filter_media">
-            <field name="name">Alumnos con Nota Media Mayor de 8</field>
+        <record model="ir.ui.view" id="fcties_alumno_search">
+            <field name="name">fcties.alumno.search</field>
             <field name="model">fcties.alumno</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="nota_media" string="Nota Media" filter_domain="[('nota_media', '>', 8)]"/>
+                    <field name="apellidos"/>
+                    <field name="empresa_id"/>
+                    <field name="periodo_practica"/>
+                    <field name="curso_academico"/>
+                    <field name="nota_media" string="Nota Media Mayor 8" filter_domain="[('nota_media', '$gt;', 8)]"/>
                 </search>
             </field>
         </record>
+
 
         <!-- Acción de ventana para el modelo Alumno -->
         <record model="ir.actions.act_window" id="fcties.alumno_action_window">
             <field name="name">fcties.alumno.action_window</field>
             <field name="res_model">fcties.alumno</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,search</field>
         </record>
 
         <!-- Vistas para el modelo Empresa -->
@@ -90,7 +96,14 @@
                             <field name="telefono_contacto"/>
                             <field name="correo_electronico"/>
                             <field name="direccion"/>
-                            <field name="alumno_ids" widget="many2many_tags" options="{'no_create_edit': False}"/>
+                            <field name="alumno_ids" widget="one2many_tags" options="{'no_create_edit': True}">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="apellidos"/>
+                                    <field name="curso_academico"/>
+                                    <field name="periodo_practica"/>
+                                </tree>
+                            </field>
                         </group>
                     </sheet>
                 </form>
@@ -139,13 +152,6 @@
             </field>
         </record>
 
-        <record id="menu_alumnos" model="ir.ui.menu">
-            <field name="name">Alumnos</field>
-            <field name="parent_id" ref="fcties.menu_root_fct"/>
-            <field name="action" ref="fcties.menu_action_alumnos"/>
-            <field name="sequence" eval="5"/>
-        </record>
-
         <record id="menu_action_alumnos" model="ir.actions.act_window">
             <field name="name">Alumnos</field>
             <field name="res_model">fcties.alumno</field>
@@ -160,11 +166,11 @@
             </field>
         </record>
 
-        <record id="menu_empresas" model="ir.ui.menu">
-            <field name="name">Empresas</field>
+        <record id="menu_alumnos" model="ir.ui.menu">
+            <field name="name">Alumnos</field>
             <field name="parent_id" ref="fcties.menu_root_fct"/>
-            <field name="action" ref="fcties.menu_action_empresas"/>
-            <field name="sequence" eval="10"/>
+            <field name="action" ref="fcties.menu_action_alumnos"/>
+            <field name="sequence" eval="5"/>
         </record>
 
         <record id="menu_action_empresas" model="ir.actions.act_window">
@@ -181,47 +187,11 @@
             </field>
         </record>
 
-        <!-- Definición de Grupos de Usuarios -->
-        <record id="group_fct_coordinator" model="res.groups">
-            <field name="name">Coordinador</field>
-            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <record id="menu_empresas" model="ir.ui.menu">
+            <field name="name">Empresas</field>
+            <field name="parent_id" ref="fcties.menu_root_fct"/>
+            <field name="action" ref="fcties.menu_action_empresas"/>
+            <field name="sequence" eval="10"/>
         </record>
-
-        <record id="group_fct_teacher" model="res.groups">
-            <field name="name">Profesor</field>
-            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-        </record>
-
-        <!-- Asignación de Permisos a los Grupos -->
-        <record id="access_fct_coordinator" model="ir.model.access">
-            <field name="name">Access FCT Coordinator</field>
-            <field name="model_id" ref="model_fcties_alumno"/>
-            <field name="group_id" ref="fcties.group_fct_coordinator"/>
-            <field name="perm_read" eval="1"/>
-            <field name="perm_write" eval="1"/>
-            <field name="perm_create" eval="1"/>
-            <field name="perm_unlink" eval="1"/>
-        </record>
-
-        <record id="access_fct_teacher_alumno" model="ir.model.access">
-            <field name="name">Access FCT Teacher Alumno</field>
-            <field name="model_id" ref="model_fcties_alumno"/>
-            <field name="group_id" ref="fcties.group_fct_teacher"/>
-            <field name="perm_read" eval="1"/>
-            <field name="perm_write" eval="1"/>
-            <field name="perm_create" eval="1"/>
-            <field name="perm_unlink" eval="1"/>
-        </record>
-
-        <record id="access_fct_teacher_empresa" model="ir.model.access">
-            <field name="name">Access FCT Teacher Empresa</field>
-            <field name="model_id" ref="model_fcties_empresa"/>
-            <field name="group_id" ref="fcties.group_fct_teacher"/>
-            <field name="perm_read" eval="1"/>
-            <field name="perm_write" eval="0"/>
-            <field name="perm_create" eval="0"/>
-            <field name="perm_unlink" eval="0"/>
-        </record>
-
     </data>
 </odoo>

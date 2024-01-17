@@ -17,6 +17,7 @@ class Alumno(models.Model):
     periodo_practica = fields.Selection([('1', 'Abril'), ('2', 'Septiembre')], string='Periodo de Práctica', required=True)
     nota_media = fields.Float(string='Nota Media', required=True)
     nota_media_texto = fields.Char(string='Nota Media en Texto', compute='_compute_nota_media_texto', store=True)
+    empresa_id = fields.Many2one('fcties.empresa', string='Empresa de Prácticas')
 
     @api.depends('nota_media')
     def _compute_nota_media_texto(self):

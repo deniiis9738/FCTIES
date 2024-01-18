@@ -1,45 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <!-- Report Layout -->
-        <template id="report_empresa_alumnos">
-            <t t-call="web.html_container">
-                <t t-foreach="docs" t-as="doc">
-                    <div class="page">
-                        <!-- Datos de la Empresa -->
-                        <h2>Información de la Empresa</h2>
-                        <p>Nombre: <t t-esc="doc.name"/></p>
+    <report id="fcties.informe_empresa" string="Informe sobre alumnos de una empresa" model="fcties.empresa" report_type="qweb-pdf" name="fcties.informe_empresa_view" file="fcties.informe_empresa_view"/>
+    <!-- Report Layout -->
+    <template id="report_empresa_alumnos">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <!-- Datos de la Empresa -->
+                    <h2>Información de la Empresa</h2>
+                    <p>Nombre: <t t-esc="doc.name"/></p>
 
-                        <!-- Alumnos Agrupados por Curso Académico -->
-                        <h2>Alumnos por Curso Académico</h2>
-                        <t t-foreach="doc.alumnos_grouped_by_academic_year" t-as="academic_year">
-                            <h3><t t-esc="academic_year.year"/></h3>
-                            <table>
-                                <thead>
+                    <!-- Alumnos Agrupados por Curso Académico -->
+                    <h2>Alumnos por Curso Académico</h2>
+                    <t t-foreach="doc.alumnos_grouped_by_academic_year" t-as="academic_year">
+                        <h3><t t-esc="academic_year.year"/></h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Apellidos</th>
+                                    <th>Teléfono</th>
+                                    <th>Periodo de Práctica</th>
+                                    <th>Ciclo Formativo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="academic_year.students" t-as="student">
                                     <tr>
-                                        <th>Nombre</th>
-                                        <th>Apellidos</th>
-                                        <th>Teléfono</th>
-                                        <th>Periodo de Práctica</th>
-                                        <th>Ciclo Formativo</th>
+                                        <td><t t-esc="student.name"/></td>
+                                        <td><t t-esc="student.apellidos"/></td>
+                                        <td><t t-esc="student.telefono"/></td>
+                                        <td><t t-esc="student.periodo_practica"/></td>
+                                        <td><t t-esc="student.ciclo_formativo"/></td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <t t-foreach="academic_year.students" t-as="student">
-                                        <tr>
-                                            <td><t t-esc="student.name"/></td>
-                                            <td><t t-esc="student.apellidos"/></td>
-                                            <td><t t-esc="student.telefono"/></td>
-                                            <td><t t-esc="student.periodo_practica"/></td>
-                                            <td><t t-esc="student.ciclo_formativo"/></td>
-                                        </tr>
-                                    </t>
-                                </tbody>
-                            </table>
-                        </t>
-                    </div>
-                </t>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
             </t>
-        </template>
-    </data>
+        </t>
+    </template>
 </odoo>

@@ -55,7 +55,7 @@
                     <field name="empresa_id"/>
                     <field name="periodo_practica"/>
                     <field name="curso_academico"/>
-                    <field name="nota_media" string="Nota Media Mayor 8" filter_domain="[('nota_media', '$gt;', 8)]"/>
+                    <filter name="mayor_ocho" string="Nota Media > 8" domain="[('nota_media','>',8)]"/>
                 </search>
             </field>
         </record>
